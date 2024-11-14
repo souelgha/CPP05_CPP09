@@ -3,38 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:58:43 by sonia             #+#    #+#             */
-/*   Updated: 2024/11/13 19:22:13 by sonia            ###   ########.fr       */
+/*   Updated: 2024/11/14 18:16:43 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "BitcoinExchange.hpp"
 
-int main()
+
+int main(int argc, char **argv)
 {
-	std::ifstream vfile("input.txt");
-	std::string line;
-
-	if(!vfile)
-		std::cout<< "erreur de lecture du fichier"<< std::endl;
-	std::getline(vfile, line);
-	std::istringstream lstream(line);
-	std::cout<< line << std::endl;
-	while(std::getline(vfile, line))
+	if(argc != 2)
 	{
-		std::istringstream lstream(line);
-		std::string date;
-		float value;
-
-		if(std::getline(lstream, date, '|'))
-		{
-			lstream >> value;
-			std::cout<< date << " | "<< value << std::endl;
-		}
+		std::cerr << "Error:couldn't open file" << std::endl;
+		return(1);
 	}
-	vfile.close();
+	BitcoinExchange b;
+	b.parsExchange();
+
+	parsInput(argv[1]);
 	return(0);
 }

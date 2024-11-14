@@ -4,9 +4,9 @@ CXX = c++
 
 SRC = main.cpp BitcoinExchange.cpp
 
-OBJ=$(SRC: .cpp=.o)
+OBJ=$(SRC:.cpp=.o)
 
-all= $(NAME)
+
 
 %.o:%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -14,12 +14,14 @@ all= $(NAME)
 $(NAME):$(OBJ)
 	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
+all:$(NAME)
+
 clean:
 	rm -f $(OBJ)
 
-fclean: clean
+fclean:clean
 	rm -f $(NAME)
 
-re: fclean all
+re:fclean all
 
 .PHONY: all clean fclean re
