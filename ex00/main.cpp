@@ -6,7 +6,7 @@
 /*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:58:43 by sonia             #+#    #+#             */
-/*   Updated: 2024/11/15 16:32:23 by sonia            ###   ########.fr       */
+/*   Updated: 2024/11/15 17:16:24 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int main(int argc, char **argv)
 		return(1);
 	}
 	BitcoinExchange b;	
-	b.parsExchange();
 	std::cout << "---------------------------------------" << std::endl;
 	b.parsInput(argv[1]);
 	std::cout << "---------------------------------------" << std::endl;

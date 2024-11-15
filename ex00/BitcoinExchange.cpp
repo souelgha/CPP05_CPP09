@@ -6,16 +6,29 @@
 /*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:15:06 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/11/15 16:29:56 by sonia            ###   ########.fr       */
+/*   Updated: 2024/11/15 17:17:42 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(){}
+BitcoinExchange::BitcoinExchange()
+{
+	BitcoinExchange::initMap();
+}
 BitcoinExchange::~BitcoinExchange(){}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
+{
+	this->_exchange=other._exchange;
+}
+BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange &other)
+{
+	if(this != &other)
+		this->_exchange = other._exchange;
+	return(*this);
+}
 
- void BitcoinExchange::parsExchange()
+ void BitcoinExchange::initMap()
 {
 	std::ifstream vfile("data.csv");
 	std::string line;
@@ -86,8 +99,7 @@ void BitcoinExchange::parsInput(const std::string argv1)
 				std::cout<< date1 << " => "<< value << " = " ;
 				float f = BitcoinExchange::compareDate(date1);
 				std::cout << f * value << std::endl;
-			}
-				
+			}				
 		}
 	}
 	vfile.close();
@@ -130,12 +142,7 @@ bool BitcoinExchange::checkDate(std::string &date)
 
 bool checkValue(float value)
 {
-	if(!value)
-	{
-		std::cerr << "Error: no value " << std::endl;
-		return(false);
-	}
-	else if(value < 0)
+	if(value < 0)
 	{
 		std::cerr << "Error: not positive value " << std::endl;
 		return(false);
@@ -146,5 +153,4 @@ bool checkValue(float value)
 		return(false);
 	}
 	return true;
-
 }

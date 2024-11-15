@@ -6,7 +6,7 @@
 /*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:57:45 by sonia             #+#    #+#             */
-/*   Updated: 2024/11/15 16:27:33 by sonia            ###   ########.fr       */
+/*   Updated: 2024/11/15 17:16:24 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class BitcoinExchange
 		BitcoinExchange(const BitcoinExchange &other);
 		BitcoinExchange & operator=(const BitcoinExchange &other);
 
-		void parsExchange();
+		void initMap();
 		void parsInput(const std::string argv1);
 		float compareDate(const std::string &dateinput);
 		bool checkDate(std::string &date);		
