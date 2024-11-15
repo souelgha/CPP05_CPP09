@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:15:06 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/11/14 18:23:45 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:29:56 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 BitcoinExchange::BitcoinExchange(){}
 BitcoinExchange::~BitcoinExchange(){}
 
-void BitcoinExchange::parsExchange()
+ void BitcoinExchange::parsExchange()
 {
-	std::ifstream vfile("data1.csv");
+	std::ifstream vfile("data.csv");
 	std::string line;
 
 	if(!vfile)
@@ -33,22 +33,36 @@ void BitcoinExchange::parsExchange()
 		{
 			lstream >> value;
 			_exchange[date] = value;
-		}
-		
+		}		
 	}
 	vfile.close();
-	std::cout << std::fixed;
-	std::cout << std::setprecision(2);
-	for (std::map<std::string, float>::iterator it = _exchange.begin(); it != _exchange.end();++it )
-		std::cout << it->first << " : " << it->second << std::endl;
 }
-void parsInput(std::string argv1)
+float BitcoinExchange::compareDate(const std::string &dateInput)
+{
+	std::map<std::string, float>::iterator it;
+	it= _exchange.begin();
+	while(dateInput > it->first)
+		it++;
+	if(dateInput == it->first)
+		return(it->second);
+	else if(dateInput < it->first)
+	{
+		--it;
+		return(it->second);
+	}		
+	std::cerr << "no matching found"<< std::endl;
+	return(0);
+}
+void BitcoinExchange::parsInput(const std::string argv1)
 {
 	std::ifstream vfile(argv1.c_str());
 	std::string line;
 
 	if(!vfile)
+	{
 		std::cout<< "erreur de lecture du fichier"<< std::endl;
+		return;
+	}
 	std::getline(vfile, line);
 	if (line != "date | value")
 	{
@@ -62,19 +76,24 @@ void parsInput(std::string argv1)
 		std::string date;
 		float value;
 
-		if(std::getline(lstream, date, '|') &&(checkDate(date)))
+		if(std::getline(lstream, date, '|') &&(BitcoinExchange::checkDate(date)))
 		{
 			if (!(lstream >> value) )
 				std::cerr << "Error: no value " << std::endl;			
 			else if(checkValue(value))
-				std::cout<< date << " => "<< value << " = val x exrate"<< std::endl;
+			{
+				std::string date1= date.substr(0, 10);
+				std::cout<< date1 << " => "<< value << " = " ;
+				float f = BitcoinExchange::compareDate(date1);
+				std::cout << f * value << std::endl;
+			}
+				
 		}
-		
 	}
 	vfile.close();
 }
 
-bool checkDate(std::string &date)
+bool BitcoinExchange::checkDate(std::string &date)
 {
 	int year, month, day;
 	char delim1, delim2;
@@ -86,7 +105,7 @@ bool checkDate(std::string &date)
 		std::cerr << "Error: bad input => " << date << std::endl;
 		return(false);
 	}
-	if(year < 2009 || year > 2022 || month < 1 || month > 12 || day < 1)
+	else if(year < 2009 || year > 2022 || month < 1 || month > 12 || day < 1)
 	{
 		std::cerr << "Error: bad input => " << date << std::endl;
 		return(false);
@@ -95,6 +114,15 @@ bool checkDate(std::string &date)
 	if(day > MonthTable[month - 1])
 	{
 		std::cerr << "Error: bad input => " << date << std::endl;
+		return(false);
+	}
+	std::map<std::string, float>::iterator it= _exchange.begin();
+	std::map<std::string, float>::iterator ite= _exchange.end();
+	std::string date1= date.substr(0, 10);
+	ite--;
+	if(date1 < it->first || date1 > ite->first)
+	{
+		std::cerr << "Error: date out of range => " << date1 << std::endl;
 		return(false);
 	}
 	return true;

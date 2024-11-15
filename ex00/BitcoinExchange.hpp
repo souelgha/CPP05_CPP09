@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:57:45 by sonia             #+#    #+#             */
-/*   Updated: 2024/11/14 18:26:08 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:27:33 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ class BitcoinExchange
 	public:
 		BitcoinExchange();
 		~BitcoinExchange();
+		BitcoinExchange(const BitcoinExchange &other);
+		BitcoinExchange & operator=(const BitcoinExchange &other);
+
 		void parsExchange();
-		
+		void parsInput(const std::string argv1);
+		float compareDate(const std::string &dateinput);
+		bool checkDate(std::string &date);		
 };
-void parsInput(std::string argv1);
-bool checkDate(std::string &date);
+
 bool checkValue(float value);
