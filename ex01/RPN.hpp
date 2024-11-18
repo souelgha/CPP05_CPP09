@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:58:04 by sonia             #+#    #+#             */
-/*   Updated: 2024/11/16 09:42:40 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:00:55 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include<iostream>
+#include<sstream>
+#include<cstring>
 #include<algorithm>
 #include<stack>
-#include<iterator>
 #include<exception>
 
 class RPN
@@ -31,6 +32,6 @@ class RPN
 		int divise(const int &a, const int &b);
 		int add(const int &a, const int &b);
 		int soustract(const int &a, const int &b);
-		void resultRPN(std::string str) const;
+		void resultRPN(std::string str);
 
 };

@@ -51,6 +51,7 @@
 		"span": "cpp",
 		"ctime": "cpp",
 		"map": "cpp",
-		"iomanip": "cpp"
+		"iomanip": "cpp",
+		"cstring": "cpp"
 	}
 }

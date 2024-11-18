@@ -6,8 +6,6 @@ SRC = main.cpp RPN.cpp
 
 OBJ=$(SRC:.cpp=.o)
 
-
-
 %.o:%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 

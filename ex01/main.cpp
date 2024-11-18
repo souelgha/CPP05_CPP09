@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:56:58 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/11/16 18:13:39 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:01:32 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,38 @@
 bool parsingArg(char *str)
 {
 	int i= 0;
+	if(!std::isdigit(str[0]) || !std::isdigit(str[2]))
+		return false;
 	while(str[i])
 	{
-		if(str[i] =='(' || str[i] == ')' || std::isalpha(str[i]))
-		{
-			std::cerr << "Error" << std::endl;
+		if ((!std::isdigit(str[i])) && str[i] !='*' && str[i] != '/' && str[i] !='-' && str[i] !='+' && str[i] != ' ')
 			return false;
-		}
-		if (str[i])
-		{
-			/* code */
-		}
-		
+		if (i % 2 == 1 && str[i] != ' ')
+			return false;		
+		i++;		
 	}
+	return true;
 }
 int main(int argc, char **argv)
 {
-	
 	if(argc != 2)
 	{
 		std::cerr << "Error" << std::endl;
 		return(1);
 	}
+	if(!parsingArg(argv[1]))
+	{
+		std::cerr << "Error" << std::endl;
+		return(1);
+	}
+	RPN r;
+	try
+	{
+		r.resultRPN(argv[1]);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}	
 	return(0);
 }
