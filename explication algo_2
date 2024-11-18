@@ -1,0 +1,88 @@
+Ford et Johnson ont proposé un algo de tri qui minimise le nombre de comparaisons. Ce n'est pas un algo fait pour être exécuté sur un ordinateur (même si c'est un bon exercice de l'implémenter; mais une comparaison, pour nos processeurs actuels, c'est une opération élémentaire). Par contre, c'est un algo utile si on nous demande de programer le logiciel qui doit orchestrer les tests pour classer les produits de notre client. Surtout si ces tests sont longs et chers (contexte industriel oblige). Là, notre expertise peut lui faire économiser pas mal de temps et d'argent, et donc se négocie bien (ou nos fourmis exploiteront de meilleures ressources plus vite...). Et c'est dans ces contextes qu'il il prend son intérêt.
+
+Apparemment, certains se basent encore sur l'explication de punkchameleon (sur GitHub), qui n'a pas compris la recursion (le reste de ses explications est bon; un mec de 42 Japan a ouvert un ticket sur le sujet), et qui passent donc à côté d'un concept important: leur fourmies seront moins performantes (ou je vais pouvoir montrer à leur client que je fais mieux que leur expert et récupérer le contrat), c'est dommage. On s'est inscrit à 42, pas en formation pôle emploi, 3 mois pour apprendre java: c'est aussi pour être challengé. Ca me donne l'opportunité (le plaisir même...) de revenir deux secondes sur les algorithmes, la récursivité... Et les algos recursifs !
+
+D'abord, de quoi on parle:
+
+Sur wikipédia, un algorithme c'est :
+"une suite finie et non ambiguë d'instructions et d’opérations permettant de résoudre une classe de problèmes." (modifié)
+NOUVEAU
+[00:34]
+Notons bien la non ambiguïté. Quand on parle avec quelqu'un qui a compris l'algo, on sait qu'on parle de la même chose. Si on n'a pas compris un algo pareil, c'est qu'au moins une des deux personnes ne l'a pas compris (ce qui ne veut pas dire qu'il ne peut pas y avoir de confusion: si, je me mettai a utiliser la reverse polish notation dans mes explications, tant que vous n'aurez pas remarqué que j'utilise pas le système standard, on va pas forcément avoir l'impression de parler de la même chose. Ou si j'implémentais mon algo pour trier par ordre décroissant : tout serait inversé et ça va demander une petite gymnastique pour se rendre compte que, in fine, c'est la même procédure). Après, les algos peuvent être organisés différemment dans leurs implémentations, les explications peuvent être plus ou moins pertinentes (et résonner plus ou moins avec nous, et notre compréhension des choses). Je ne dis pas qu'il n'y a qu'une manière de voir les choses ni que la mienne est bonne. Mais qu'il y a des choses qui sont quand même assez clairement définies. Après, pour ceux qui pensent que la terre est plate, qu'il y avait plus de monde à l'investiture de Trump qu'à celle d'Obama... Bref, qu'il suffit de dire une chose suffisamment fort pour en faire une réalité, ça va être compliqué.
+
+Tant qu'à tout définir, la classe de problème qui nous intéresse, c'est le tri de listes. De n'importe quelle liste.
+
+Toujours sur wikipédia, la récursivité est définie comme: (modifié)
+[00:34]
+"une démarche qui fait référence à l'objet même de la démarche à un moment du processus (...). En informatique (...), une fonction ou plus généralement un algorithme peut contenir un ou des appels à lui-même, auquel cas il est dit récursif."
+
+Donc, punkchameleon (son code fonctionne: ça trie), dans ses explications:
+"Step 4, The next step in FJMI is to recursively sort all the pairs by their largest element. In this implementation, we use ‘sort_by_larger_value’ (...), a modified insertion sort."
+Étape 4, la prochaine étape de FJMI est de trier recursivement la liste de paires suivant leurres plus grands elements.
+Le problème, c'est que pour trier recursivement, il faut comprendre le principe de récursivité...
+
+Et moi, dans mon explication précédente : une fonction n'est pas récursive parce qu'elle appelle une fonction récursive, une fonction est récursive car elle s'appelle elle même (c'est la même erreur, mais là où l'on faisait appel a merge sort, il fait appel a insertion sort, aka insert sort, qu'il implémente en récursif...).
+
+Maintenant que j'en ai fini avec les définitions et les citations, place aux explications:
+
+Oublions qu'on est en train de coder merge insert sort, et disons qu'on est en train de décrire une procédure pour trier une liste : à une certaine étape de la procédure, je dois trier une autre liste; l'utilisation de n'importe quel algo de tri rendra la procédure fonctionelle.
+
+Si l'algo de tri qu'on utilise est insert sort (respectivement merge sort), notre algo de tri, c'est insert sort, et notre procédure est une décoration*. (modifié)
+[00:35]
+Par contre, si, à cette étape la, notre procédure s'appelle elle même (et que ca fonctionne), alors notre procédure est un algo de tri.
+
+*Je dis décoration, mais ici, on est sur du Rococo, baroque tardif (c'est très compliqué et on y comprend pas grand chose: la bonne nouvelle, c'est que c'était la partie dure de l'algo). Une procédure plus minimaliste pourrait être:
+
+"Ma procédure pour trier une liste
+Étape 1: ajouter 1 à tous les éléments de la liste.
+Étape 2: appeler un algo de tri sur cette nouvelle liste.
+Étape 3: retirer 1 à tous les éléments de la liste triée.
+Retourner la liste triée." (modifié)
+[00:35]
+Cette procédure fonctionne (ça tri). Mais si a l'étape 2, j'essaye d'appeler recursivement ma procédure plutôt que d'appeler un algo de tri, il ne va pas se passer grand chose  (ça va overflow à la limite): cette procédure n'est donc pas un algo de tri (pourtant, elle trie une liste... Mais l'algo de tri, c'est le truc que j'ai appelé à l'étape 2: mes étapes 1 et 3 sont décoratives. Je pourrais les suprimer, ca fonctionnerait tout aussi bien).
+
+Similairement, le code de punkchameleon est une procédure de tri très compliquée, qui comme merge-insert sort, appaire les éléments pour les insérer ensuite suivant la progression de jacobsthal, mais fait, entre les deux étapes, appel à insert sort: l'algo de tri, c'est insert sort. Le reste, c'est de la déco. Même si cette déco, c'est la procédure de FJ... C'est ballot: sur la moitié de notre liste, on n'optimise pas le nombre de comparaisons. On aurait donc pu trier cette liste en en effectuant moins. (modifié)
+[00:36]
+Les codes de Morwenn, decidelyso, codeoptimist... C'est des merge-insert sorts. L'algo de tri qu'ils appellent, c'est la fonction qu'ils sont en train de coder. Et ça fait toute la différence.
+
+Tout ça pour dire que merge-insert sort est un algo de tri, pas une procédure compliquée qui décore un algo de tri.
+
+La truc qui fait de Ford Johnson un algo de tri, c'est qu'on peut appeler recursivement la "procédure" qu'ils décrivent, et que ça va fonctionner.
+Pourquoi ça va fonctionner: parce que ça trie. Et parce qu'il y a un critère d'arrêt. Un peu les deux en même temps (d'où la numérotation wtf).
+
+b) Si j'ai compris pourquoi cette procédure, quand on lui donne une liste, peu importe sa taille, arrive à la trier (même si pour moi, ce qui se passe lors de cette étape récursive est mysterieux: je sais juste que j'ai accès à une boite noire qui peut trier ma liste de paires (soit, une liste deux fois plus petite que celle que j'ai recue en entrée). Peu importe comment. Ce qui est important, c'est que je sois persuadé que cette procedure, si elle a accès a cette boite noire, est capable de trier n'importe quelle liste)... Pourquoi ne pas faire appel à cette procédure même, en lieu et place de ma boite noire ?
+
+a) Maintenant, quelle que soit la taille de la liste que je reçois initialement, je ne vais pouvoir la couper en deux qu'un certain nombre de fois avant de me retrouver avec une liste à un seul élément, qui, par nature, est triée ( (approximativement) log2(taille liste) fois). Autrement dit, il va y avoir log2(taille liste) appels recursifs à ma fonction. Et à partir de là, je vais pouvoir "remonter" ma chaîne d'appels recursifs successifs.
+
+Mes explications sûr le pourquoi ça trie et le comment ça optimise les comparaisons sont dans le pavé précédent.
+
+Pour ceux qui préfèrent la pratique: on va dérouler l'algo sur l'instance [7, 8, 5, 9, 11, 0, 2, 1, 10, 3, 4, 6] (avec des bullets pour noter la profondeur dans notre recursion: on est au premier niveau, une bullet) (modifié)
+
+7
+NOUVEAU
+[00:36]
+. Apairrer: [(7, 8), (5, 9), (11, 0), (2, 1), (10, 3), (4, 6)]
+. Comparer*: [8, 9, 11, 2, 10, 6] et... Récursion (on va trier cette nouvelle liste de la même manière que la première, donc une bullet en plus, mais la récursion, c'est la phase 2 de l'algo: on reprendra pour la phase 3 quand l'appel récursif suivant me renverra cette liste triée):
+.. Apairrer: [(8, 9), (11, 2), (10, 6)]
+.. Comparer**: [9, 11, 10] et... Récursion:
+... Apairrer: [(9 , 11)] je peux pas faire de paire avec le 10, je le garde pour plus tard.
+... Comparer***: [11] et... Récursion:
+.... Critère d'arrêt atteint (liste de taille 1): je retourne la liste [11]... Et je commence à "remonter" ma chaîne d'appels (je repasse à 3 bullets).
+... Insérer: l'élément appairé à 11, le 9**, j'ai la liste [9, 11]. J'insère le 10 que je m'étais gardé pour plus tard et je retourne la liste [9, 10, 11]
+.. Insérer: d'abord l'élément appairé au plus petit élément, 9, ici c'est 8*, j'ai la liste [8, 9]. Ensuite, j'insère l'élément apairré à 11, ici le 2 dans la liste [8, 9, 10] (en fait, dans la liste [8, 9, (10, 6)]...) , puis l'élément apairré à 10 (le 6) dans la liste [2, 8, 9]. Je retourne la liste [2, 6, 8, 9, 10, 11]
+. Insérer: d'abord l'élément appairé à 2, puis celui appairé à  8, suivi de celui appairé à 6, ensuite celui appairé à  10, suivi de celui à 9, puis à 11 (suivant Jacobsthal...) et j'ai la liste [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] à renvoyer. (modifié)
+
+5
+
+5
+[00:40]
+Ma liste est triée.
+
+* Attention, abus de notation incoming: plutôt que d'utiliser une paire, j'ai utiliser le plus grand élément de la paire. Mais c'est bien d'une paire qu'il s'agit : 8 represente la paire (7, 8); 9 c'est (5, 9)...
+** J'ai noté 9, mais en fait, 9 c'est (8, 9)... Mais (8, 9) de l'étape précédente: donc 9 c'est  ((7,8), (5,9)) (abus de notation récursif !)
+*** Et 11 ici, c'est (9, 11)... Soit ((8,9), (2,11))... Ou (((7,8),(5,9)), ((1,2),(0,11)))
+
+Et si je représente ça sous forme d'arbre binaire, ça explique pourquoi on en voit sur la page de wikipédia sur la récursivité.
+
+https://previews.123rf.com/images/popaukropa/popaukropa1501/popaukropa150100022/35722304-récursivité-les-mains-tenant-un-morceau-de-papier-répétition-du-motif-illustration.jpg (modifié)
+

@@ -1,0 +1,7 @@
+sources
+
+https://codereview.stackexchange.com/questions/116367/ford-johnson-merge-insertion-sort),
+
+
+Je crois comprendre une partie du challenge technique pour implementer l'algo, a savoir creer une classe avec template, et methodes pertinentes qui permet entre autres d'appeler notre fonction de tri de maniere recursive et lui donner une liste d'elements, quelle que soit leur forme (e.g int, vecteur d'int, vecteur de paire d'int, vecteur de paire de paire d'int...), je crois que pour la partie implementation concrete, je pourrai me creuser la tete et trouver quelque chose, mais c'est pour la comprehension haut niveau de l'algorithme que j'envoie un SOS !
+
