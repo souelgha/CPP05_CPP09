@@ -1,7 +1,6 @@
 
 Mieux: la v2. (modifié)
-NOUVEAU
-[01:46]
+
 Merge insert sort (découvert par Ford et Johnson, probablement nommé par D. Knuth) est un algo qui cherche a minimiser le nombre de comparaisons effectuées pour trier une liste. Cet algo utilise la recherche dichotomique (binary search en anglais). C'est parfois appelé la recherche par dictionnaire (je compare mon élément à celui du milieu de la liste, pour diviser la taille de mon champ de recherche par deux, et je recommence). Cette technique permet d'insérer un élément dans une liste de taille n en log2(taille liste) comparaisons.
 
 L'algo:
@@ -29,8 +28,7 @@ Une première observation ici: le petit élément de la paire la plus petite (do
 Une deuxième observation: après une insertion, la liste sera toujours triée.
 
 Une digression: vu que je vais devoir insérer des éléments dans une liste triée, je vais pouvoir faire des recherches par dichotomie. C'est donc mieux si j'ai 2^n-1 éléments dans ma liste (pour un certain n... encore une histoire de log). (modifié)
-NOUVEAU
-[01:48]
+
 Plus concrètement: on va commencer par regarder combien de comparaisons je dois faire pour insérer un élément dans des listes de différentes tailles; et on va essayer de remarquer que le nombre de comparaisons nécessaires augmente de un quand on passe d'une liste de taille 2^n-1 à une liste de taille 2^n. Si je veux insérer un élément dans une liste de:
 0 (= 2^0-1) éléments: j'ai juste à l'insérer: 0 comparaisons
 1 (= 2^1-1 = 2^0) élément: j'ai une comparaison à faire et à insérer: 1 comparaison

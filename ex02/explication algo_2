@@ -6,14 +6,13 @@ D'abord, de quoi on parle:
 
 Sur wikipédia, un algorithme c'est :
 "une suite finie et non ambiguë d'instructions et d’opérations permettant de résoudre une classe de problèmes." (modifié)
-NOUVEAU
-[00:34]
+
 Notons bien la non ambiguïté. Quand on parle avec quelqu'un qui a compris l'algo, on sait qu'on parle de la même chose. Si on n'a pas compris un algo pareil, c'est qu'au moins une des deux personnes ne l'a pas compris (ce qui ne veut pas dire qu'il ne peut pas y avoir de confusion: si, je me mettai a utiliser la reverse polish notation dans mes explications, tant que vous n'aurez pas remarqué que j'utilise pas le système standard, on va pas forcément avoir l'impression de parler de la même chose. Ou si j'implémentais mon algo pour trier par ordre décroissant : tout serait inversé et ça va demander une petite gymnastique pour se rendre compte que, in fine, c'est la même procédure). Après, les algos peuvent être organisés différemment dans leurs implémentations, les explications peuvent être plus ou moins pertinentes (et résonner plus ou moins avec nous, et notre compréhension des choses). Je ne dis pas qu'il n'y a qu'une manière de voir les choses ni que la mienne est bonne. Mais qu'il y a des choses qui sont quand même assez clairement définies. Après, pour ceux qui pensent que la terre est plate, qu'il y avait plus de monde à l'investiture de Trump qu'à celle d'Obama... Bref, qu'il suffit de dire une chose suffisamment fort pour en faire une réalité, ça va être compliqué.
 
 Tant qu'à tout définir, la classe de problème qui nous intéresse, c'est le tri de listes. De n'importe quelle liste.
 
 Toujours sur wikipédia, la récursivité est définie comme: (modifié)
-[00:34]
+
 "une démarche qui fait référence à l'objet même de la démarche à un moment du processus (...). En informatique (...), une fonction ou plus généralement un algorithme peut contenir un ou des appels à lui-même, auquel cas il est dit récursif."
 
 Donc, punkchameleon (son code fonctionne: ça trie), dans ses explications:
@@ -28,7 +27,6 @@ Maintenant que j'en ai fini avec les définitions et les citations, place aux ex
 Oublions qu'on est en train de coder merge insert sort, et disons qu'on est en train de décrire une procédure pour trier une liste : à une certaine étape de la procédure, je dois trier une autre liste; l'utilisation de n'importe quel algo de tri rendra la procédure fonctionelle.
 
 Si l'algo de tri qu'on utilise est insert sort (respectivement merge sort), notre algo de tri, c'est insert sort, et notre procédure est une décoration*. (modifié)
-[00:35]
 Par contre, si, à cette étape la, notre procédure s'appelle elle même (et que ca fonctionne), alors notre procédure est un algo de tri.
 
 *Je dis décoration, mais ici, on est sur du Rococo, baroque tardif (c'est très compliqué et on y comprend pas grand chose: la bonne nouvelle, c'est que c'était la partie dure de l'algo). Une procédure plus minimaliste pourrait être:
@@ -38,11 +36,11 @@ Par contre, si, à cette étape la, notre procédure s'appelle elle même (et qu
 Étape 2: appeler un algo de tri sur cette nouvelle liste.
 Étape 3: retirer 1 à tous les éléments de la liste triée.
 Retourner la liste triée." (modifié)
-[00:35]
+
 Cette procédure fonctionne (ça tri). Mais si a l'étape 2, j'essaye d'appeler recursivement ma procédure plutôt que d'appeler un algo de tri, il ne va pas se passer grand chose  (ça va overflow à la limite): cette procédure n'est donc pas un algo de tri (pourtant, elle trie une liste... Mais l'algo de tri, c'est le truc que j'ai appelé à l'étape 2: mes étapes 1 et 3 sont décoratives. Je pourrais les suprimer, ca fonctionnerait tout aussi bien).
 
 Similairement, le code de punkchameleon est une procédure de tri très compliquée, qui comme merge-insert sort, appaire les éléments pour les insérer ensuite suivant la progression de jacobsthal, mais fait, entre les deux étapes, appel à insert sort: l'algo de tri, c'est insert sort. Le reste, c'est de la déco. Même si cette déco, c'est la procédure de FJ... C'est ballot: sur la moitié de notre liste, on n'optimise pas le nombre de comparaisons. On aurait donc pu trier cette liste en en effectuant moins. (modifié)
-[00:36]
+
 Les codes de Morwenn, decidelyso, codeoptimist... C'est des merge-insert sorts. L'algo de tri qu'ils appellent, c'est la fonction qu'ils sont en train de coder. Et ça fait toute la différence.
 
 Tout ça pour dire que merge-insert sort est un algo de tri, pas une procédure compliquée qui décore un algo de tri.
@@ -59,8 +57,7 @@ Mes explications sûr le pourquoi ça trie et le comment ça optimise les compar
 Pour ceux qui préfèrent la pratique: on va dérouler l'algo sur l'instance [7, 8, 5, 9, 11, 0, 2, 1, 10, 3, 4, 6] (avec des bullets pour noter la profondeur dans notre recursion: on est au premier niveau, une bullet) (modifié)
 
 7
-NOUVEAU
-[00:36]
+
 . Apairrer: [(7, 8), (5, 9), (11, 0), (2, 1), (10, 3), (4, 6)]
 . Comparer*: [8, 9, 11, 2, 10, 6] et... Récursion (on va trier cette nouvelle liste de la même manière que la première, donc une bullet en plus, mais la récursion, c'est la phase 2 de l'algo: on reprendra pour la phase 3 quand l'appel récursif suivant me renverra cette liste triée):
 .. Apairrer: [(8, 9), (11, 2), (10, 6)]
