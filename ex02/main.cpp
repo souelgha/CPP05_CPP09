@@ -2,6 +2,7 @@
 #include <iostream>
 #include<algorithm>
 #include<vector>
+#include<ctime>
 #include<iterator>
 #include<utility> // pour les paires
 
@@ -13,16 +14,42 @@
   si on me donne le plus grand élément d'une paire, il faut que je puisse retourner le plus petit immédiatement
 
 */
-std::vector<int> input={8, 3, 7, 1, 9, 4, 2};
 
-std::vector<std::pair<int, int>> Createpaires(std::vector<int> &input)
-{}
+
+std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input)
+{
+	std::vector<std::pair<int, int> > paires;
+
+	for(size_t i=0; i+1 < input.size(); i+=2)
+	{
+		if(input[i]< input[i+1])
+			paires.push_back(std::make_pair(input[i], input[i+1]));
+		else
+			paires.push_back(std::make_pair(input[i+1], input[i]));
+	}
+	return paires;
+}
 
 
 
 int main()
 {
+	std::vector<int> input;
+	srand(time(0));
 
-	return(0)
+	for(int i = 0; i < 10 ; i++)
+		input.push_back(rand() % 100);
+	std::cout<< "--------input-------\n";
+	for(size_t i = 0 ; i < 10 ; i++)
+		std::cout<<" " << input[i];
+	std::cout<< "\n";
+
+	std::vector<std::pair<int, int> > paires;
+	paires = Createpaires(input);
+	for (size_t i=0; i < paires.size(); i++)
+		std::cout << "pairs: ("<< paires[i].first<< "," << paires[i].second << ") ; ";
+	std::cout<< "\n";
+	
+	return(0);
 
 }
