@@ -1,10 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
+/*   Updated: 2024/11/21 15:31:18 by sonouelg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <iostream>
-#include<algorithm>
-#include<vector>
-#include<ctime>
-#include<iterator>
-#include<utility> // pour les paires
+
+ // pour les paires
 
 /*etape 1
  je fais des paires d'éléments (e.g. en doublant la longueur de mes itérateurs), 
@@ -15,20 +22,7 @@
 
 */
 
-
-std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input)
-{
-	std::vector<std::pair<int, int> > paires;
-
-	for(size_t i=0; i+1 < input.size(); i+=2)
-	{
-		if(input[i]< input[i+1])
-			paires.push_back(std::make_pair(input[i], input[i+1]));
-		else
-			paires.push_back(std::make_pair(input[i+1], input[i]));
-	}
-	return paires;
-}
+#include "PmergeMe.hpp"
 
 
 
