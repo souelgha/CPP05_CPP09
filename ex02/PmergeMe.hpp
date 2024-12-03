@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:27:30 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/02 18:16:01 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:19:56 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 #include<utility>
 
 std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input);
-void Createpair(std::vector<int> &input);
 void sort_pairs(std::vector<std::pair<int, int> >  &pairs);
-void MergeSorted( std::vector<std::pair<int, int> >  leftH, std::vector<std::pair<int, int> >  rightH, 
+void MergeSorted( std::vector<std::pair<int, int> >  &leftH, std::vector<std::pair<int, int> >  &rightH, 
 				std::vector<std::pair<int, int> > &pairs);
+void sort_numbers( std::vector<int> &input);
+
+// void SeparateContainer(std::vector<std::pair<int, int> >  &pairs);
+// int BinarySearch(int target);
 
 // class PmergeMe
 // {

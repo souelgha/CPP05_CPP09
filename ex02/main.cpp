@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/02 18:33:32 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:21:16 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,15 @@ int main()
 	std::vector<int> input;
 	srand(time(0));
 
-	for(int i = 0; i < 12 ; i++)
+	for(int i = 0; i < 20 ; i++)
 		input.push_back(rand() % 100);
 	std::cout<< "--------input-------\n";
-	for(size_t i = 0 ; i < 10 ; i++)
+	for(size_t i = 0 ; i < 20 ; i++)
 		std::cout<<" " << input[i];
 	std::cout<< "\n";
 
-	std::vector<std::pair<int, int> > paires;
-	paires = Createpaires(input);
-	for (size_t i=0; i < paires.size(); i++)
-		std::cout << "pairs: ("<< paires[i].first<< "," << paires[i].second << ") ; ";
-	std::cout<< "\n";
-	Createpair(input);	
-	sort_pairs(paires);
+	sort_numbers(input);
+
 	return(0);
 
 }
