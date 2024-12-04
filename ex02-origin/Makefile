@@ -6,7 +6,7 @@
 #    By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 10:22:59 by sonouelg          #+#    #+#              #
-#    Updated: 2024/12/04 17:45:45 by sonouelg         ###   ########.fr        #
+#    Updated: 2024/11/21 15:29:46 by sonouelg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = PmergeMe
 CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -g3
 CXX = c++
 
-SRC= main.cpp PmergeMe.cpp PmergeMeVect.cpp
+SRC= main.cpp PmergeMe.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/04 17:56:00 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:21:03 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@ int main()
 	std::vector<int> input;
 	srand(time(0));
 
-	for(int i = 0; i < 19 ; i++)
+	for(int i = 0; i < 20 ; i++)
 		input.push_back(rand() % 100);
 	std::cout<< "--------input-------\n";
-	for(size_t i = 0 ; i < 19 ; i++)
+	for(size_t i = 0 ; i < 20 ; i++)
 		std::cout<<" " << input[i];
 	std::cout<< "\n\n";
 
-	PmergeMeVect v;
-	v.sort_numbers(input);
+	sort_numbers(input);
 
 
 
