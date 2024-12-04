@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/03 18:21:16 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:21:03 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int main()
 	std::cout<< "--------input-------\n";
 	for(size_t i = 0 ; i < 20 ; i++)
 		std::cout<<" " << input[i];
-	std::cout<< "\n";
+	std::cout<< "\n\n";
 
 	sort_numbers(input);
+
+
 
 	return(0);
 

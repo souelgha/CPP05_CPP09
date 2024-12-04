@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:26:10 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/03 18:29:35 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:44:34 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 void sort_numbers( std::vector<int> &input)
 {
 	std::vector< std::pair< int, int > > paires = Createpaires(input);
-	// generate index Jacobsthal;
+	std::vector<int> jacobindxs = CalculJacobindx(input.size());	
 
 	sort_pairs(paires);
+	std::cout << "paires sorted : ";
+	for (size_t i=0; i < paires.size(); i++)
+		std::cout << "("<< paires[i].first<< "," << paires[i].second << ") ; ";
+	std::cout << "\n";
 
 	std::vector<int> MainChain;
 	MainChain.push_back(paires[0].first);
@@ -30,8 +34,25 @@ void sort_numbers( std::vector<int> &input)
 	std::cout<< "Big : ";
 	for (i=MainChain.begin(); i != MainChain.end(); ++i)
 		std::cout << *i <<" ";
-	
-	
+	std::cout <<"\n";
+
+	for (size_t i = 0; i < jacobindxs.size(); i++)
+    {
+        if (size_t(jacobindxs[i] - 1) >= paires.size())
+            continue;
+
+        int index = BinarySearch(paires[jacobindxs[i] - 1].second, MainChain);
+		std::cout<< "indexBin: "<< index<<std::endl;
+		std::vector<int>::iterator search= MainChain.begin() + index;
+		std::vector<int>::iterator pos = std::upper_bound(MainChain.begin(),search, paires[jacobindxs[i] - 1].first );
+		std::cout<< "pos: "<< (pos - MainChain.begin())<<std::endl;
+        MainChain.insert(pos, paires[jacobindxs[i] - 1].first);
+		std::vector<int> :: iterator it;
+		std::cout<< "Output : ";
+		for (it=MainChain.begin(); it != MainChain.end(); ++it)
+		std::cout << *it <<" ";
+		std::cout <<"\n";
+    }
 }
 std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input)
 {
@@ -85,54 +106,52 @@ void MergeSorted( std::vector<std::pair<int, int> >  &leftH, std::vector<std::pa
 		pairs[indx++] = leftH[indxL++];
 	while(indxR < rightH.size())
 		pairs[indx++] = rightH[indxR++];
-	std::cout << "MS pairs: ";
-	for (size_t i=0; i < pairs.size(); i++)
-		std::cout << "("<< pairs[i].first<< "," << pairs[i].second << ") ; ";
-	std::cout << "\n";
+	
 
 }
 
-// std::vector<int> generate_indexes(size_t size) 
-// {
-//     std::vector<int> indexes;
-//     int jacobsthalArray[size + 1];
+std::vector<int> CalculJacobindx(size_t lenght) 
+{
+    std::vector<int> jacobindx;
+    int jacobsthalArray[lenght];
 
-//     jacobsthalArray[0] = 0;
-//     jacobsthalArray[1] = 1;
-//     int lastJNum = 2;
+    jacobsthalArray[0] = 0;
+    jacobsthalArray[1] = 1;
+    int lastJNum = 2;
 
-//     for (size_t i = 2; indexes.size() < size; i++)
-//     {
-//         jacobsthalArray[i] = jacobsthalArray[i - 1] + 2 * jacobsthalArray[i - 2];
-//         if(i != 2)
-//         {
-//             indexes.push_back(jacobsthalArray[i]);
-//         }
+    for (size_t i = 2; jacobindx.size() < lenght; i++)
+    {
+        jacobsthalArray[i] = jacobsthalArray[i - 1] + 2 * jacobsthalArray[i - 2];
+        if(i != 2)
+            jacobindx.push_back(jacobsthalArray[i]);
 
-//         // Push back the indexes between the last Jacobsthal number and the current one
-//         for (int j = jacobsthalArray[i] - 1; j > lastJNum; j--)
-//             indexes.push_back(j);
+        // ajout des index intermedaires dans le vector 
+        for (int j = jacobsthalArray[i] - 1; j > lastJNum; j--)
+            jacobindx.push_back(j);
+        lastJNum = jacobsthalArray[i];
+    }
+	std::vector<int> :: iterator i;
+	std::cout<< "Jacobsthal : ";
+	for (i=jacobindx.begin(); i != jacobindx.end(); ++i)
+		std::cout << *i <<" ";
+	std::cout <<"\n";
+    return (jacobindx);
+}
 
-//         // Update the last Jacobsthal number
-//         lastJNum = jacobsthalArray[i];
-//     }
-//     return (indexes);
-// }
-
-// int BinarySearch(int target)
-// {
-// 	int low = 0;
-// 	int high = MainChain.size() - 1;
+int BinarySearch(int target, std::vector<int> &MainChain)
+{
+	int low = 0;
+	int high = MainChain.size() - 1;
 	
-// 	while(low <= high)
-// 	{
-// 		int middle = low + (high - low)/2;
-// 		if(target == MainChain[middle])
-// 			return(middle);
-// 		if(target < MainChain[middle])
-// 			high = middle - 1;
-// 		else
-// 			low = middle + 1;
-// 	}
-// 	return(-1);	
-// }
+	while(low <= high)
+	{
+		int middle = low + (high - low)/2;
+		if(target == MainChain[middle])
+			return(middle);
+		if(target < MainChain[middle])
+			high = middle - 1;
+		else
+			low = middle + 1;
+	}
+	return(-1);	
+}
