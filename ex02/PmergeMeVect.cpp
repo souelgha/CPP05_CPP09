@@ -6,7 +6,7 @@
 /*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:26:10 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/04 18:04:27 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:55:42 by sonouelg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ PmergeMeVect::PmergeMeVect()
 {
 	this->_oddVal = -1;
 }
+
 PmergeMeVect::~PmergeMeVect(){}
 PmergeMeVect::PmergeMeVect(const PmergeMeVect &other)
 {
@@ -27,17 +28,31 @@ PmergeMeVect & PmergeMeVect::operator=(const PmergeMeVect &other)
 		*this=other;
 	return(*this);
 }
-
-void PmergeMeVect::sort_numbers( std::vector<int> &input)
+void PmergeMeVect::ft_stoi( int argc, char **data)
 {
-	if(input.size() %2 != 0)
+	for (int i = 1; i < argc ; ++i)
 	{
-		_oddVal = input.back();
-		input.pop_back();
+		std::istringstream ss(data[i]);
+		int value;
+		ss >> value;
+		_input.push_back(value);
+	}		
+	for (size_t i = 0; i < _input.size() ; ++i)
+		std::cout<< _input[i]<<" ";
+	std::cout<<"\n";
+}
+
+void PmergeMeVect::sort_numbers( int argc, char **data)
+{
+	ft_stoi(argc, data);
+	if(_input.size() %2 != 0)
+	{
+		_oddVal = _input.back();
+		_input.pop_back();
 	}
 
-	_paires = Createpaires(input);
-	std::vector<int> jacobindxs = CalculJacobindx(input.size());	
+	_paires = Createpaires(_input);
+	std::vector<int> jacobindxs = CalculJacobindx(_input.size());	
 
 	sort_pairs(_paires);
 	std::cout << "paires sorted : ";
