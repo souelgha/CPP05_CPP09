@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:27:30 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/05 17:47:41 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:42:22 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include<iterator>
 #include<utility>
 #include<sstream>
+#include<iomanip>
 
 
 class PmergeMe
@@ -37,6 +38,8 @@ class PmergeMeVect :public PmergeMe
 {
 	private :
 		int _oddVal;
+		double _time;
+		size_t    _size;
 		std::vector<int> _input;
 		std::vector<int> _MainChain;
 		std::vector<std::pair<int, int > > _paires;
@@ -56,6 +59,36 @@ class PmergeMeVect :public PmergeMe
 		
 		std::vector<int> CalculJacobindx(size_t lenght);
 		int BinarySearch(int target);
+		void printVect(void);
+
+
+};
+class PmergeMeDeq :public PmergeMe
+{
+	private :
+		int _oddVal;
+		double _time;
+		size_t    _size;
+		std::deque<int> _input;
+		std::deque<int> _MainChain;
+		std::deque<std::pair<int, int > > _paires;
+		
+	public:
+		PmergeMeDeq();
+		~PmergeMeDeq();
+		PmergeMeDeq(const PmergeMeDeq &other);
+		PmergeMeDeq & operator=(const PmergeMeDeq &other);
+		void ft_stoi(int argc, char **data);
+		void sort_numbers( int argc, char **data);
+		std::deque<std::pair<int, int> > Createpaires(std::deque<int> &input);
+		void sort_pairs(std::deque<std::pair<int, int> >  &pairs);
+		void MergeSorted(std::deque<std::pair<int, int> >  &leftH, 
+						std::deque<std::pair<int, int> >  &rightH, 
+						std::deque<std::pair<int, int> > &pairs);
+		
+		std::deque<int> CalculJacobindx(size_t lenght);
+		int BinarySearch(int target);
+		void printDeq(void);
 
 
 };

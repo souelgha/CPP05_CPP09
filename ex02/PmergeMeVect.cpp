@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMeVect.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:26:10 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/05 17:55:42 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/08 20:03:01 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 PmergeMeVect::PmergeMeVect()
 {
 	this->_oddVal = -1;
+	this->_time = 0;
+	this->_size = 0;
 }
 
 PmergeMeVect::~PmergeMeVect(){}
-PmergeMeVect::PmergeMeVect(const PmergeMeVect &other)
+PmergeMeVect::PmergeMeVect(const PmergeMeVect &other):PmergeMe(other)
 {
 	*this = other;
 }
 PmergeMeVect & PmergeMeVect::operator=(const PmergeMeVect &other)
 {
 	if(this!= &other)
-		*this=other;
+		*this = other;
 	return(*this);
 }
 void PmergeMeVect::ft_stoi( int argc, char **data)
@@ -36,14 +38,17 @@ void PmergeMeVect::ft_stoi( int argc, char **data)
 		int value;
 		ss >> value;
 		_input.push_back(value);
-	}		
+	}
+	_size = _input.size();
+/*	std::cout << "Before : ";
 	for (size_t i = 0; i < _input.size() ; ++i)
 		std::cout<< _input[i]<<" ";
-	std::cout<<"\n";
+	std::cout<<"\n";*/
 }
 
 void PmergeMeVect::sort_numbers( int argc, char **data)
 {
+	std::clock_t startTime = std::clock();
 	ft_stoi(argc, data);
 	if(_input.size() %2 != 0)
 	{
@@ -52,13 +57,20 @@ void PmergeMeVect::sort_numbers( int argc, char **data)
 	}
 
 	_paires = Createpaires(_input);
-	std::vector<int> jacobindxs = CalculJacobindx(_input.size());	
+	std::vector<int> jacobindxs = CalculJacobindx(_input.size());
+	if(_paires.size() == 0)
+	{
+		_MainChain.push_back(_oddVal);
+		_time = 1000.0 * (std::clock() - startTime) / (double) CLOCKS_PER_SEC;
+		printVect();
+		return;
+	}
 
 	sort_pairs(_paires);
-	std::cout << "paires sorted : ";
+	/*std::cout << "paires sorted : ";
 	for (size_t i=0; i < _paires.size(); i++)
 		std::cout << "("<< _paires[i].first<< "," << _paires[i].second << ") ; ";
-	std::cout << "\n";
+	std::cout << "\n";*/
 
 	_MainChain.push_back(_paires[0].first);
 	_MainChain.push_back(_paires[0].second);
@@ -79,11 +91,8 @@ void PmergeMeVect::sort_numbers( int argc, char **data)
 		std::vector<int>::iterator pos = std::upper_bound(_MainChain.begin(),_MainChain.end(), _oddVal);
         _MainChain.insert(pos, _oddVal);
 	}
-	std::vector<int> :: iterator it;
-	std::cout<< "Output : ";
-	for (it=_MainChain.begin(); it != _MainChain.end(); ++it)
-	std::cout << *it <<" ";
-	std::cout <<"\n";
+	_time = 1000.0 * (std::clock() - startTime) / (double) CLOCKS_PER_SEC;
+	printVect();
 }
 std::vector<std::pair<int, int> > PmergeMeVect::Createpaires(std::vector<int> &input)
 {
@@ -153,11 +162,11 @@ std::vector<int> PmergeMeVect::CalculJacobindx(size_t lenght)
             jacobindx.push_back(j);
         lastJNum = jacobsthalArray[i];
     }
-	std::vector<int> :: iterator i;
+/*	std::vector<int> :: iterator i;
 	std::cout<< "Jacobsthal : ";
 	for (i=jacobindx.begin(); i != jacobindx.end(); ++i)
 		std::cout << *i <<" ";
-	std::cout <<"\n";
+	std::cout <<"\n";*/
     return (jacobindx);
 }
 
@@ -177,4 +186,21 @@ int PmergeMeVect::BinarySearch(int target)
 			low = middle + 1;
 	}
 	return(-1);	
+}
+void PmergeMeVect::printVect(void)
+{
+	/*std::cout << "Before : ";
+	for (size_t i = 0; i < _size ; ++i)
+		std::cout<< _input[i]<<" ";
+	std::cout<<"\n";	*/
+	/*std::vector<int> :: iterator it;
+	std::cout<< "After : ";
+	for (it=_MainChain.begin(); it != _MainChain.end(); ++it)
+	std::cout << *it <<" ";*/
+	std::cout <<"\n";
+	std::cout << "Time to process a range of ";
+	std::cout << _size << " elements with std::vector : " ;
+	
+	std::cout <<std::setprecision(8) <<_time << "ms" << std::endl;
+	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/05 17:55:13 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:54:51 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,18 @@ int main(int argc, char **argv)
 			return(1);
 	}
 	//ajouter le int max pour le check.
+	std::cout << "Before : ";
+	for (int i = 0; i < argc ; ++i)
+		std::cout<< argv[i]<<" ";
+	std::cout<< "\n";
+	
 	PmergeMeVect v;
 	v.sort_numbers(argc, argv);
+
+	PmergeMeDeq dq;
+	dq.sort_numbers(argc, argv);
+	
+	
 	return(0);
 
 }

@@ -1,0 +1,46 @@
+The Ford-Johnson algorithm, also known as merge-insertion sort (the name was probably given by Knuth) is an in-place sorting algorithm designed to perform as few comparisons as possible to sort a collection. Unfortunately, the algorithm needs some specific data structures to keep track of the order of the elements and is generally too slow to be practical. Anyway, it is an interesting algorithm from a computer science point of view; while not performing an optimal number of comparisons, it's still a reference and one of the best known comparison sorts when it comes to reducing the number of comparisons.
+
+The algorithm is not the simplest in the world and I couldn't find a proper explanation online, so I will try to explain it as I can based on the descriptions in The Art of Computer Programming, Volume 3 by Donald Knuth.
+Making the best of binary search
+
+To perform a minimal number of comparisons, we need to take into account the following observation about binary search: the maximal number of comparisons needed to perform a binary search on a sorted sequence is the same when the number of elements is 2n
+and when it is 2n+1−1. For example, looking for an element in a sorted sequence of 8 or 15
+
+elements requires the same number of comparisons.
+
+Many insertion-based sorting algorithms perform binary searches to find where to insert elements, but most of them don't take that property of binary search into account.
+The merge-insertion sort
+
+The Ford-Johnson merge-insertion sort is a three-step algorithm, let n
+
+be the number of elements to sort:
+
+    Split the collection in n/2
+
+pairs of 2
+
+elements and order these elements pairwise. If the number of elements is odd, the last element of the collection isn't paired with any element.
+
+Recursively sort the pairs of elements by their highest value. If the number of elements is odd, the last element is not considered a highest value and is left at the end of the collection. Consider that the highest values form a sorted list that we will call the main chain while the rest of the elements will be known as pend elements. Tag the elements of the main chain with the names a1,a2,a3,...,an/2
+then tag the pend elements with the names b1,b2,b3,...,bn/2. For every k, we have the relation bk≤ak
+
+.
+
+Insert the pend elements into the main chain. We know that the first pend element b1
+is lesser than a1; we consider it to be part of the main chain which then becomes {b1,a1,a2,a3,...,an/2}. Now, we need to insert the other pend elements into the main chain in a way that ensures that the size of the insertion area is a power of 2 minus 1 as often as possible. Basically, we will insert b3 in {b1,a1,a2} (we know that it is less than a3), then we will insert b2 into {b1,a1,b3} no matter where b3
+
+was inserted. Note that during these insertions, the size of the insertion area is always at most 3.
+
+The value of the next pend element bk
+to insert into the main chain while minimizing the number of comparisons actually corresponds to the next Jacobsthal number. We inserted the element 3 first, so the next will be 5 then 11 then 21
+
+, etc...
+
+To sum up, the insertion order of the first pend elements into the main chain is as follows: b1,b3,b2,b5,b4,b11,b10,b9,b8,b7,b6,...
+
+    .
+
+To be honest, this explanation is probably not clear enough, and I really recommend that you look for other descriptions of the algorithm from whatever resource is available to you; they generally come with pictures to make it more obvious what is happening. I can at least give you links to a step-by-step description of the unrolled algorithm for 5 elements; The Art of Computer Programming, Volume 3 contains descriptions of the algorithm for 5 and 21 elements in section 5.3.1 as well as a general description of the algorithm (if you have access to a copy of the book).
+Gimme teh codez
+
+I did what I could to describe the algorithm. Now, let's give you the code. Most optimizations are described in the comments near the relevant parts. Also, some parts are ugly, such as the full double move of the collection to and from a cache in the end, but it is hard to get rid of this specific part. To perform the recursive sort smoothly, the algorithm uses a group_iterator class that "views" a contiguous group of elements from the collection of a given size but only uses the last element of the group when performing a comparison, even though it is able to swap the whole viewed area with another part of the collection.

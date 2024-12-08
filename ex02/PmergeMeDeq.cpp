@@ -3,59 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMeDeq.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonouelg <sonouelg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:26:10 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/04 17:51:39 by sonouelg         ###   ########.fr       */
+/*   Updated: 2024/12/08 20:02:46 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"PmergeMe.hpp"
 
-void sort_numbers( std::vector<int> &input)
+PmergeMeDeq::PmergeMeDeq()
 {
-	if(input.size()%2 != 0)
-	std::vector< std::pair< int, int > > paires = Createpaires(input);
-	std::vector<int> jacobindxs = CalculJacobindx(input.size());	
+	this->_oddVal = -1;
+	this->_time = 0;
+	this->_size = 0;
+}
 
-	sort_pairs(paires);
-	std::cout << "paires sorted : ";
-	for (size_t i=0; i < paires.size(); i++)
-		std::cout << "("<< paires[i].first<< "," << paires[i].second << ") ; ";
-	std::cout << "\n";
+PmergeMeDeq::~PmergeMeDeq(){}
+PmergeMeDeq::PmergeMeDeq(const PmergeMeDeq &other):PmergeMe(other)
+{
+	*this = other;
+}
+PmergeMeDeq & PmergeMeDeq::operator=(const PmergeMeDeq &other)
+{
+	if(this!= &other)
+		*this = other;
+	return(*this);
+}
+void PmergeMeDeq::ft_stoi( int argc, char **data)
+{
+	for (int i = 1; i < argc ; ++i)
+	{
+		std::istringstream ss(data[i]);
+		int value;
+		ss >> value;
+		_input.push_back(value);
+	}
+	_size = _input.size();
+/*	std::cout << "Before : ";
+	for (size_t i = 0; i < _input.size() ; ++i)
+		std::cout<< _input[i]<<" ";
+	std::cout<<"\n";*/
+}
 
-	std::vector<int> MainChain;
-	MainChain.push_back(paires[0].first);
-	MainChain.push_back(paires[0].second);
-	for (size_t i = 1; i <paires.size() ; ++i)
-		MainChain.push_back(paires[i].second);
+void PmergeMeDeq::sort_numbers( int argc, char **data)
+{
+	std::clock_t startTime = std::clock();
+	ft_stoi(argc, data);
+	if(_input.size() %2 != 0)
+	{
+		_oddVal = _input.back();
+		_input.pop_back();
+	}
+
+	_paires = Createpaires(_input);
+	std::deque<int> jacobindxs = CalculJacobindx(_input.size());
+	if(_paires.size() == 0)
+	{
+		_MainChain.push_back(_oddVal);
+		_time = 1000.0 * (std::clock() - startTime) / (double) CLOCKS_PER_SEC;
+		printDeq();
+		return;
+	}
+
+	sort_pairs(_paires);
+	/*std::cout << "paires sorted : ";
+	for (size_t i=0; i < _paires.size(); i++)
+		std::cout << "("<< _paires[i].first<< "," << _paires[i].second << ") ; ";
+	std::cout << "\n";*/
+
+	_MainChain.push_back(_paires[0].first);
+	_MainChain.push_back(_paires[0].second);
+	for (size_t i = 1; i <_paires.size() ; ++i)
+		_MainChain.push_back(_paires[i].second);
 
 	for (size_t i = 0; i < jacobindxs.size(); i++)
     {
-        if (size_t(jacobindxs[i] - 1) >= paires.size())
+        if (size_t(jacobindxs[i] - 1) >= _paires.size())
             continue;
-        int index = BinarySearch(paires[jacobindxs[i] - 1].second, MainChain);
-		std::vector<int>::iterator search= MainChain.begin() + index;
-		std::vector<int>::iterator pos = std::upper_bound(MainChain.begin(),search, paires[jacobindxs[i] - 1].first );
-        MainChain.insert(pos, paires[jacobindxs[i] - 1].first);
-
-	
+        int index = BinarySearch(_paires[jacobindxs[i] - 1].second);
+		std::deque<int>::iterator search= _MainChain.begin() + index;
+		std::deque<int>::iterator pos = std::upper_bound(_MainChain.begin(),search, _paires[jacobindxs[i] - 1].first );
+        _MainChain.insert(pos, _paires[jacobindxs[i] - 1].first);	
     }
-	std::vector<int> :: iterator it;
-	std::cout<< "Output : ";
-	for (it=MainChain.begin(); it != MainChain.end(); ++it)
-	std::cout << *it <<" ";
-	std::cout <<"\n";
-}
-std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input)
-{
-	std::vector<std::pair<int, int> > paires;
-	if(input.size()%2 != 0)
+	if(_oddVal != -1)
 	{
-		// int value = input.back();
-		input.pop_back();
+		std::deque<int>::iterator pos = std::upper_bound(_MainChain.begin(),_MainChain.end(), _oddVal);
+        _MainChain.insert(pos, _oddVal);
 	}
-
+	_time = 1000.0 * (std::clock() - startTime) / (double) CLOCKS_PER_SEC;
+	printDeq();
+}
+std::deque<std::pair<int, int> > PmergeMeDeq::Createpaires(std::deque<int> &input)
+{
+	std::deque<std::pair<int, int> > paires;
 	for(size_t i=0; i+1 < input.size(); i+=2)
 	{
 		if(input[i]> input[i+1])
@@ -64,15 +105,15 @@ std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input)
 	}
 	return paires;
 }
-void sort_pairs(std::vector<std::pair<int, int> >  &pairs) 
+void PmergeMeDeq::sort_pairs(std::deque<std::pair<int, int> >  &pairs) 
 {
     if (pairs.size() <= 1)
         return; 
 	
-    // divise le vector de paires en 2 moities
+    // divise le deque de paires en 2 moities
     size_t middle = pairs.size() / 2;
-    std::vector<std::pair<int, int> > left(pairs.begin(), pairs.begin() + middle);	
-  	std::vector<std::pair<int, int> > right(pairs.begin() + middle, pairs.end());
+    std::deque<std::pair<int, int> > left(pairs.begin(), pairs.begin() + middle);	
+  	std::deque<std::pair<int, int> > right(pairs.begin() + middle, pairs.end());
 	
     // trie recursif des 2 moities
     sort_pairs(left);
@@ -82,7 +123,7 @@ void sort_pairs(std::vector<std::pair<int, int> >  &pairs)
     MergeSorted(left, right, pairs);
 }
 
-void MergeSorted( std::vector<std::pair<int, int> >  &leftH, std::vector<std::pair<int, int> >  &rightH, std::vector<std::pair<int, int> > &pairs)
+void PmergeMeDeq::MergeSorted( std::deque<std::pair<int, int> >  &leftH, std::deque<std::pair<int, int> >  &rightH, std::deque<std::pair<int, int> > &pairs)
 {
     size_t indxL = 0;
     size_t indxR = 0;
@@ -101,9 +142,9 @@ void MergeSorted( std::vector<std::pair<int, int> >  &leftH, std::vector<std::pa
 		pairs[indx++] = rightH[indxR++];
 }
 
-std::vector<int> CalculJacobindx(size_t lenght) 
+std::deque<int> PmergeMeDeq::CalculJacobindx(size_t lenght) 
 {
-    std::vector<int> jacobindx;
+    std::deque<int> jacobindx;
     int jacobsthalArray[lenght];
 
     jacobsthalArray[0] = 0;
@@ -116,33 +157,50 @@ std::vector<int> CalculJacobindx(size_t lenght)
         if(i != 2)
             jacobindx.push_back(jacobsthalArray[i]);
 
-        // ajout des index intermedaires dans le vector 
+        // ajout des index intermedaires dans le deque 
         for (int j = jacobsthalArray[i] - 1; j > lastJNum; j--)
             jacobindx.push_back(j);
         lastJNum = jacobsthalArray[i];
     }
-	std::vector<int> :: iterator i;
+/*	std::deque<int> :: iterator i;
 	std::cout<< "Jacobsthal : ";
 	for (i=jacobindx.begin(); i != jacobindx.end(); ++i)
 		std::cout << *i <<" ";
-	std::cout <<"\n";
+	std::cout <<"\n";*/
     return (jacobindx);
 }
 
-int BinarySearch(int target, std::vector<int> &MainChain)
+int PmergeMeDeq::BinarySearch(int target)
 {
 	int low = 0;
-	int high = MainChain.size() - 1;
+	int high = _MainChain.size() - 1;
 	
 	while(low <= high)
 	{
 		int middle = low + (high - low)/2;
-		if(target == MainChain[middle])
+		if(target == _MainChain[middle])
 			return(middle);
-		if(target < MainChain[middle])
+		if(target < _MainChain[middle])
 			high = middle - 1;
 		else
 			low = middle + 1;
 	}
 	return(-1);	
+}
+void PmergeMeDeq::printDeq(void)
+{
+	/*std::cout << "Before : ";
+	for (size_t i = 0; i < _size ; ++i)
+		std::cout<< _input[i]<<" ";
+	std::cout<<"\n";	*/
+	/*std::deque<int> :: iterator it;
+	std::cout<< "After : ";
+	for (it=_MainChain.begin(); it != _MainChain.end(); ++it)
+	std::cout << *it <<" ";*/
+	std::cout <<"\n";
+	std::cout << "Time to process a range of ";
+	std::cout << _size << " elements with std::deque : " ;
+	
+	std::cout <<std::setprecision(8) <<_time << "ms" << std::endl;
+	
 }
