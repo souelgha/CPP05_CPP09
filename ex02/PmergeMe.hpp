@@ -6,7 +6,7 @@
 /*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:27:30 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/08 19:42:22 by sonia            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:20:35 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,74 +21,59 @@
 #include<utility>
 #include<sstream>
 #include<iomanip>
+#include<climits>
+
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+#define MAGENTA "\033[0;35m"
+#define CYAN "\033[0;36m"
+#define WHITE "\033[0;37m"
 
 
 class PmergeMe
 {
-	
+		private :
+			int 	_oddVal;
+			double _timev;
+			double _timeq;
+			size_t _size;
+			std::vector<int> _inputv;
+			std::vector<int> _MainChainv;
+			std::vector<std::pair<int, int > > _pairesv;
+			std::deque<int> _inputq;
+			std::deque<int> _MainChainq;
+			std::deque<std::pair<int, int > > _pairesq;
+			PmergeMe(const PmergeMe &other);
+			PmergeMe & operator=(const PmergeMe &other);
+
 	public:
 		PmergeMe();
-		virtual ~PmergeMe();
-		PmergeMe(const PmergeMe &other);
-		PmergeMe & operator=(const PmergeMe &other);
-
-};
-
-class PmergeMeVect :public PmergeMe
-{
-	private :
-		int _oddVal;
-		double _time;
-		size_t    _size;
-		std::vector<int> _input;
-		std::vector<int> _MainChain;
-		std::vector<std::pair<int, int > > _paires;
-		
-	public:
-		PmergeMeVect();
-		~PmergeMeVect();
-		PmergeMeVect(const PmergeMeVect &other);
-		PmergeMeVect & operator=(const PmergeMeVect &other);
-		void ft_stoi(int argc, char **data);
-		void sort_numbers( int argc, char **data);
-		std::vector<std::pair<int, int> > Createpaires(std::vector<int> &input);
-		void sort_pairs(std::vector<std::pair<int, int> >  &pairs);
-		void MergeSorted(std::vector<std::pair<int, int> >  &leftH, 
+		~PmergeMe();
+		void ft_stoi_V(int argc, char **data);
+		void sort_numbers_V( int argc, char **data);
+		std::vector<std::pair<int, int> > CreatepairesV(std::vector<int> &input);
+		void sort_pairs_V(std::vector<std::pair<int, int> >  &pairs);
+		void MergeSortedV(std::vector<std::pair<int, int> >  &leftH, 
 						std::vector<std::pair<int, int> >  &rightH, 
 						std::vector<std::pair<int, int> > &pairs);
-		
-		std::vector<int> CalculJacobindx(size_t lenght);
-		int BinarySearch(int target);
-		void printVect(void);
+		std::vector<int> CalculJacobindxV(size_t lenght);
+		int BinarySearchV(int target);
+		void printV(void);
+		void printVTime(void);
 
-
-};
-class PmergeMeDeq :public PmergeMe
-{
-	private :
-		int _oddVal;
-		double _time;
-		size_t    _size;
-		std::deque<int> _input;
-		std::deque<int> _MainChain;
-		std::deque<std::pair<int, int > > _paires;
-		
 	public:
-		PmergeMeDeq();
-		~PmergeMeDeq();
-		PmergeMeDeq(const PmergeMeDeq &other);
-		PmergeMeDeq & operator=(const PmergeMeDeq &other);
-		void ft_stoi(int argc, char **data);
-		void sort_numbers( int argc, char **data);
-		std::deque<std::pair<int, int> > Createpaires(std::deque<int> &input);
-		void sort_pairs(std::deque<std::pair<int, int> >  &pairs);
-		void MergeSorted(std::deque<std::pair<int, int> >  &leftH, 
+		void ft_stoi_Q(int argc, char **data);
+		void sort_numbers_Q( int argc, char **data);
+		std::deque<std::pair<int, int> > CreatepairesQ(std::deque<int> &input);
+		void sort_pairs_Q(std::deque<std::pair<int, int> >  &pairs);
+		void MergeSortedQ(std::deque<std::pair<int, int> >  &leftH, 
 						std::deque<std::pair<int, int> >  &rightH, 
 						std::deque<std::pair<int, int> > &pairs);
-		
-		std::deque<int> CalculJacobindx(size_t lenght);
-		int BinarySearch(int target);
-		void printDeq(void);
-
+		std::deque<int> CalculJacobindxQ(size_t lenght);
+		int BinarySearchQ(int target);
+		void printQ(void);
+		void printQTime(void);	
 
 };

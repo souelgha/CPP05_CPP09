@@ -6,7 +6,7 @@
 /*   By: sonia <sonia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:28:08 by sonouelg          #+#    #+#             */
-/*   Updated: 2024/12/08 19:54:51 by sonia            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:25:34 by sonia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,22 @@
 
 bool checkparsing(int argc, char **argv)
 {
+	long int nb;
+	int n = 2147483647;
 	for (int i = 1; i < argc ; ++i)
 	{	
 		int j = 0;
+		if(argv[i][j] == '+')
+			j++;
 		while(argv[i][j])
 		{
 			if(!std::isdigit(argv[i][j]))
 				return(false);
 			j++;
-		}			
+		}
+		nb = std::atol(argv[i]);
+		if(nb > n)
+			return(false);
 	}
 	return(true);
 }
@@ -31,25 +38,30 @@ int main(int argc, char **argv)
 {
 	if (argc == 1)
 	{
-		std::cout << "invalid arguments" << std::endl;
+		std::cerr << "invalid arguments" << std::endl;
 		return(1);
 	}	
 	if(!checkparsing(argc, argv))
 	{
-		std::cout<< "Invalid data" << std::endl;
-			return(1);
+		std::cerr<< "Invalid data" << std::endl;
+		return(1);
 	}
-	//ajouter le int max pour le check.
+
 	std::cout << "Before : ";
-	for (int i = 0; i < argc ; ++i)
+	for (int i = 1; i < argc ; ++i)
 		std::cout<< argv[i]<<" ";
 	std::cout<< "\n";
 	
-	PmergeMeVect v;
-	v.sort_numbers(argc, argv);
+	PmergeMe v;
+	v.sort_numbers_V(argc, argv);
+	v.printV();
 
-	PmergeMeDeq dq;
-	dq.sort_numbers(argc, argv);
+	PmergeMe dq;
+	dq.sort_numbers_Q(argc, argv);
+	// dq.printQ();
+
+	v.printVTime();
+	dq.printQTime();
 	
 	
 	return(0);

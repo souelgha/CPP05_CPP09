@@ -6,7 +6,7 @@
 #    By: sonia <sonia@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 10:22:59 by sonouelg          #+#    #+#              #
-#    Updated: 2024/12/08 19:47:12 by sonia            ###   ########.fr        #
+#    Updated: 2024/12/09 12:59:59 by sonia            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = PmergeMe
 CXXFLAGS = -std=c++98 -Wall -Wextra -Werror -g3
 CXX = c++
 
-SRC= main.cpp PmergeMe.cpp PmergeMeVect.cpp PmergeMeDeq.cpp
+SRC= main.cpp PmergeMe.cpp 
 
 OBJ=$(SRC:.cpp=.o)
 
