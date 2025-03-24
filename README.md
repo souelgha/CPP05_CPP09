@@ -22,7 +22,7 @@
 ## CPP Module 08
 ![CPP Module 09 Score](https://github.com/souelgha/CPP00_CPP04/blob/main/grade.svg)
 
-**Done entirely **
+**Done entirely**
 
 *Templated containers, iterators, algorithms*
 
