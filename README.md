@@ -1,3 +1,6 @@
+# CPP Modules part II
+each module is an dedicated to a specific functions/topics in C++ language
+
 ## CPP Module 05
 ![CPP Module 05 Score](https://github.com/souelgha/CPP00_CPP04/blob/main/grade.svg)
 
